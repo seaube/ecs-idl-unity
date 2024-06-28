@@ -245,7 +245,7 @@ public class EcsactRuntimeSettingsEditor : UnityEditor.Editor {
 		);
 
 		if(foldoutLibraryPaths) {
-			if(_ecsactSettings!.runtimeBuilderEnabled) {
+			if(_ecsactSettings!.ecsactBuildEnabled) {
 				EditorGUI.BeginDisabledGroup(true);
 				DrawRuntimeLibraryPath(settings, 0);
 				EditorGUI.EndDisabledGroup();
@@ -363,8 +363,8 @@ public class EcsactRuntimeSettingsEditor : UnityEditor.Editor {
 		} else if(potentialUnitySyncTypes.Count == 0) {
 			EditorGUILayout.HelpBox(
 				"No ecsact unity sync scripts found in project. Create a " +
-					"MonoBehaviour with one or more of the Ecsact.UnitySync interfaces - " +
-					"IRequired<>, IOnInitComponent<>, IOnUpdateComponent<>, or " +
+					"MonoBehaviour with one or more of the Ecsact.UnitySync interfaces " +
+					"- " + "IRequired<>, IOnInitComponent<>, IOnUpdateComponent<>, or " +
 					"IOnRemoveComponent<>.",
 				type: MessageType.Warning
 			);

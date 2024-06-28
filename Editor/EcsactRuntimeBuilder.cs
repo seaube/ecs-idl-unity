@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using Ecsact.Editor;
+using UnityEngine.Rendering;
 
 #nullable enable
 
@@ -129,8 +130,7 @@ public static class EcsactRuntimeBuilder {
 
 		_rtSettings = EcsactRuntimeSettings.Get();
 
-		string runtimeBuilderExecutablePath =
-			EcsactSdk.FindExecutable("ecsact_rtb");
+		string runtimeBuilderExecutablePath = EcsactSdk.FindExecutable("ecsact");
 
 		var progressId = Progress.Start("Ecsact Runtime Builder");
 
@@ -139,7 +139,7 @@ public static class EcsactRuntimeBuilder {
 		proc.StartInfo.CreateNoWindow = true;
 		proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 		proc.EnableRaisingEvents = true;
-		proc.StartInfo.Arguments = "";
+		proc.StartInfo.Arguments = "build ";
 		proc.StartInfo.RedirectStandardError = true;
 		proc.StartInfo.RedirectStandardOutput = true;
 		proc.StartInfo.UseShellExecute = false;
@@ -160,6 +160,7 @@ public static class EcsactRuntimeBuilder {
 			try {
 				var line = ev.Data;
 				if(!string.IsNullOrWhiteSpace(line)) {
+					UnityEngine.Debug.Log("fromJSON: " + line);
 					var baseMessage = JsonUtility.FromJson<MessageBase>(line);
 					switch(baseMessage.type) {
 						case AlertMessage.type:
@@ -262,13 +263,7 @@ public static class EcsactRuntimeBuilder {
 			proc.StartInfo.Arguments += " --debug ";
 		}
 
-		if(_rtSettings.systemImplSource == Ecsact.SystemImplSource.WebAssembly) {
-			proc.StartInfo.Arguments += " --wasm=wasmer ";
-		} else if(_rtSettings.systemImplSource == Ecsact.SystemImplSource.Csharp) {
-			proc.StartInfo.Arguments += " --wasm=none ";
-		}
-
-		proc.StartInfo.Arguments += " --report_format=json ";
+		proc.StartInfo.Arguments += " --format=json ";
 
 		proc.StartInfo.Arguments += "--output=\"";
 		proc.StartInfo.Arguments +=
@@ -300,6 +295,22 @@ public static class EcsactRuntimeBuilder {
 			proc.StartInfo.Arguments +=
 				Path.GetFullPath(FileUtil.GetUniqueTempPathInProject());
 		}
+
+		proc.StartInfo.Arguments += " ";
+		proc.StartInfo.Arguments += "--recipe=\"";
+		if(!string.IsNullOrEmpty(_settings.recipePath)) {
+			var recipeFullPath = Path.GetFullPath(_settings.recipePath);
+			proc.StartInfo.Arguments += recipeFullPath;
+			proc.StartInfo.Arguments += "\" ";
+		} else {
+			// Throw? bad?
+		}
+		UnityEngine.Debug.Log("passing in args: " + proc.StartInfo.Arguments);
+
+		proc.Exited +=
+			new System.EventHandler(delegate(object sender, System.EventArgs e) {
+				UnityEngine.Debug.Log("Process exited: " + proc.ExitCode);
+			});
 
 		Progress.Report(progressId, 0.1f);
 		proc.Start();
@@ -368,7 +379,7 @@ public static class EcsactRuntimeBuilder {
 				UnityEngine.Debug.LogWarning(
 					$"Old method '{methodName}' should be <color=red>removed</color> " +
 					$"from module <b>{message.module_name}</b>. It no longer exists. " +
-					"(reported by ecsact_rtb)"
+					"(reported by ecsact build)"
 				);
 			}
 		}
@@ -378,7 +389,7 @@ public static class EcsactRuntimeBuilder {
 			if(!methods.Contains(methodName)) {
 				UnityEngine.Debug.LogWarning(
 					$"New method '{methodName}' should be <color=green>added</color> " +
-					$"to module <b>{message.module_name}</b>. (reported by ecsact_rtb)"
+					$"to module <b>{message.module_name}</b>. (reported by ecsact build)"
 				);
 			}
 		}

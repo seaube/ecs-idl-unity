@@ -3,8 +3,8 @@
     <ui:Template name="EcsactRuntimeMethodLoadedUI" src="project://database/Packages/dev.ecsact.unity/Editor/EcsactRuntimeMethodLoadedUI.uxml?fileID=9197481963319205126&amp;guid=a2a638a8b49ec24468a126f89d509035&amp;type=3#EcsactRuntimeMethodLoadedUI" />
     <ui:ScrollView>
         <ui:GroupBox>
-            <ui:Label text="Runtime Builder Settings" display-tooltip-when-elided="true" style="font-size: 16px; -unity-font-style: bold;" />
-            <ui:Toggle label="Enable RTB" value="false" name="EnableRTB" binding-path="runtimeBuilderEnabled" />
+            <ui:Label text="Ecsact Build Settings" display-tooltip-when-elided="true" style="font-size: 16px; -unity-font-style: bold;" />
+            <ui:Toggle label="Enable Ecsact Build" value="false" name="EnableEcsactBuild" binding-path="ecsactBuildEnabled" />
             <ui:Instance template="EcsactRuntimeBuilderSettings" name="EcsactRuntimeBuilderSettings" style="visibility: visible;" />
         </ui:GroupBox>
         <ui:GroupBox>
