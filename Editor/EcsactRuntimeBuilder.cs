@@ -160,7 +160,6 @@ public static class EcsactRuntimeBuilder {
 			try {
 				var line = ev.Data;
 				if(!string.IsNullOrWhiteSpace(line)) {
-					UnityEngine.Debug.Log("fromJSON: " + line);
 					var baseMessage = JsonUtility.FromJson<MessageBase>(line);
 					switch(baseMessage.type) {
 						case AlertMessage.type:
@@ -298,18 +297,26 @@ public static class EcsactRuntimeBuilder {
 
 		proc.StartInfo.Arguments += " ";
 		proc.StartInfo.Arguments += "--recipe=\"";
-		if(!string.IsNullOrEmpty(_settings.recipePath)) {
-			var recipeFullPath = Path.GetFullPath(_settings.recipePath);
-			proc.StartInfo.Arguments += recipeFullPath;
-			proc.StartInfo.Arguments += "\" ";
-		} else {
-			// Throw? bad?
+
+		if(_settings.ecsactBuildEnabled) {
+			if(!string.IsNullOrEmpty(_settings.recipePath)) {
+				var recipeFullPath = Path.GetFullPath(_settings.recipePath);
+				proc.StartInfo.Arguments += recipeFullPath;
+				proc.StartInfo.Arguments += "\" ";
+			} else {
+				UnityEngine.Debug.LogError(
+					"A recipe path hasn't been given in Ecsact Build Settings"
+				);
+			}
 		}
-		UnityEngine.Debug.Log("passing in args: " + proc.StartInfo.Arguments);
 
 		proc.Exited +=
 			new System.EventHandler(delegate(object sender, System.EventArgs e) {
-				UnityEngine.Debug.Log("Process exited: " + proc.ExitCode);
+				if(proc.ExitCode != 0) {
+					UnityEngine.Debug.Log("Ecsact build failed");
+				} else {
+					UnityEngine.Debug.Log("Ecsact build succeeded");
+				}
 			});
 
 		Progress.Report(progressId, 0.1f);
