@@ -17,10 +17,11 @@
             <ui:Label text="Assets/Plugins/EcsactRuntime" display-tooltip-when-elided="true" binding-path="runtimeBuilderOutputPath" style="padding-left: 160px; font-size: 10px; color: rgba(210, 210, 210, 0.47); padding-right: 0;" />
             <ui:Label text=".wasm" display-tooltip-when-elided="true" style="font-size: 10px; color: rgba(210, 210, 210, 0.47); padding-left: 0;" />
         </ui:VisualElement>
-        <ui:Toggle label="Debug Runtime Build" binding-path="runtimeBuilderDebugBuild" />
+        <ui:Toggle label="Debug" binding-path="runtimeBuilderDebugBuild" />
         <ui:Toggle label="Log Stderr" binding-path="runtimeBuilderPrintSubcommandStderr" />
         <ui:Toggle label="Log Stdout" binding-path="runtimeBuilderPrintSubcommandStdout" />
         <ui:TextField picking-mode="Ignore" label="Compiler Path" multiline="false" binding-path="runtimeBuilderCompilerPath" />
+        <ui:TextField picking-mode="Ignore" label="Recipe Path" binding-path="recipePath" />
         <ui:TextField picking-mode="Ignore" label="Temp Directory" multiline="false" binding-path="runtimeBuilderTempDirectory" />
     </ui:VisualElement>
 </ui:UXML>

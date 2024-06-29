@@ -23,8 +23,10 @@ public class ExecutionOptions {
 	private List<Int32>                           adds_entities;
 	private List<EcsactRuntime.EcsactComponent>   updates;
 	private List<Int32>                           updates_entities;
+	private List<IntPtr>                          updates_entities_indexes;
 	private List<EcsactRuntime.EcsactComponentId> removes;
 	private List<Int32>                           removes_entities;
+	private List<IntPtr>                          removes_entities_indexes;
 
 	public List<BuilderEntity>                        create_entities;
 	private List<List<EcsactRuntime.EcsactComponent>> create_entities_components;
@@ -40,8 +42,10 @@ public class ExecutionOptions {
 		adds_entities = new();
 		updates = new();
 		updates_entities = new();
+		updates_entities_indexes = new();
 		removes = new();
 		removes_entities = new();
+		removes_entities_indexes = new();
 		executionOptions = new();
 		create_entities = new();
 		create_entities_components = new();

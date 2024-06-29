@@ -14,5 +14,7 @@ jobs:
     name: Formatting Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/workflows/clang-format-action
+      - uses: actions/checkout@v4
+      - uses: greut/eclint-action@v0
+      - uses: jidicula/clang-format-action@v4.11.0
+        with: { clang-format-version: "18" }

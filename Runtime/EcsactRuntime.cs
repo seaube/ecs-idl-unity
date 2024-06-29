@@ -267,12 +267,16 @@ public class EcsactRuntime {
 		public Int32[] updateComponentsEntities;
 		[MarshalAs(UnmanagedType.LPArray)]
 		public EcsactComponent[] updateComponents;
+		[MarshalAs(UnmanagedType.LPArray)]
+		public IntPtr[] updateComponentsIndexes;
 
 		public Int32 removeComponentsLength;
 		[MarshalAs(UnmanagedType.LPArray)]
 		public Int32[] removeComponentsEntities;
 		[MarshalAs(UnmanagedType.LPArray)]
 		public EcsactComponentId[] removeComponents;
+		[MarshalAs(UnmanagedType.LPArray)]
+		public IntPtr[] removeComponentsIndexes;
 
 		public Int32 actionsLength;
 		[MarshalAs(UnmanagedType.LPArray)]
@@ -2306,7 +2310,8 @@ public class EcsactRuntime {
 		);
 
 		private string LastErrorMessage() {
-			if(ecsactsi_wasm_last_error_message == null || ecsactsi_wasm_last_error_message_length == null) {
+			if(ecsactsi_wasm_last_error_message == null ||
+				 ecsactsi_wasm_last_error_message_length == null) {
 				return "";
 			}
 
@@ -3013,13 +3018,10 @@ public class EcsactRuntime {
 	}
 
 	public static void Free(EcsactRuntime runtime) {
-		if(runtime._core == null &&
-		runtime._async == null &&
-		runtime._dynamic == null &&
-		runtime._meta == null &&
-		runtime._serialize == null &&
-		runtime._static == null &&
-		runtime._wasm == null) {
+		if(runtime._core == null && runtime._async == null &&
+			 runtime._dynamic == null && runtime._meta == null &&
+			 runtime._serialize == null && runtime._static == null &&
+			 runtime._wasm == null) {
 			UnityEngine.Debug.LogError(
 				"Ecsact Runtime attempted to be freed multiple times."
 			);
@@ -3067,7 +3069,8 @@ public class EcsactRuntime {
 					runtime._wasm.ecsactsi_wasm_reset();
 				} else {
 					UnityEngine.Debug.LogWarning(
-						"ecsactsi_wasm_reset method unavailable. Unity may become unstable after unloading the Ecsact runtime."
+						"ecsactsi_wasm_reset method unavailable. Unity may become " +
+						"unstable after unloading the Ecsact runtime."
 					);
 				}
 			}

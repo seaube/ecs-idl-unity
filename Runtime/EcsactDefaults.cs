@@ -9,19 +9,15 @@ namespace Ecsact {
 
 static public class Defaults {
 	internal static EcsactRuntime? _Runtime;
-	public static EcsactRuntime Runtime =>
-		_Runtime ??
-		throw new Exception(
-			"Runtime is null, if you want to access it as early as possible " +
-			"use Ecsact.Defaults.WhenReady"
-		);
+	public static EcsactRuntime Runtime => _Runtime ??
+		throw new Exception("Runtime is null, if you want to access it as early " +
+												"as possible " +
+												"use Ecsact.Defaults.WhenReady");
 	internal static Ecsact.Registry? _Registry;
-	public static Ecsact.Registry Registry =>
-		_Registry ??
-		throw new Exception(
-			"Registry is null, if you want to access it as early as possible " +
-			"use Ecsact.Defaults.WhenReady"
-		);
+	public static Ecsact.Registry Registry => _Registry ??
+		throw new Exception("Registry is null, if you want to access it as early " +
+												"as possible " +
+												"use Ecsact.Defaults.WhenReady");
 	public static Ecsact.UnitySync.EntityGameObjectPool? Pool;
 	public static EcsactRunner? Runner;
 

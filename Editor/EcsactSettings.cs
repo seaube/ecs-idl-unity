@@ -14,7 +14,7 @@ class EcsactSettings : ScriptableObject {
 	public const string        path = "Project/Ecsact";
 	public const SettingsScope scope = SettingsScope.Project;
 
-	public bool   runtimeBuilderEnabled = true;
+	public bool   ecsactBuildEnabled = true;
 	public string runtimeBuilderOutputPath = "Assets/Plugins/EcsactRuntime";
 	public string runtimeBuilderTempDirectory = "";
 	public bool   runtimeBuilderDebugBuild = false;
@@ -22,6 +22,7 @@ class EcsactSettings : ScriptableObject {
 	public bool   runtimeBuilderPrintSubcommandStderr = false;
 
 	public string runtimeBuilderCompilerPath = "";
+	public string recipePath = "";
 
 	static EcsactSettings() {
 		EcsactRuntimeSettings.editorValidateEvent += OnRuntimeSettingsValidate;
@@ -53,7 +54,7 @@ class EcsactSettings : ScriptableObject {
 			rtSettings.runtimeLibraryPaths.Add("");
 		}
 
-		if(settings.runtimeBuilderEnabled) {
+		if(settings.ecsactBuildEnabled) {
 			rtSettings.runtimeLibraryPaths[0] = settings.runtimeBuilderOutputPath;
 		} else {
 			rtSettings.runtimeLibraryPaths[0] = "";
@@ -66,7 +67,7 @@ class EcsactSettings : ScriptableObject {
 			rtSettings.runtimeLibraryPaths.Add("");
 		}
 
-		if(runtimeBuilderEnabled) {
+		if(ecsactBuildEnabled) {
 			rtSettings.runtimeLibraryPaths[0] = runtimeBuilderOutputPath;
 		} else {
 			rtSettings.runtimeLibraryPaths[0] = "";
@@ -270,9 +271,9 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 
 		var builderSettingsElement =
 			ui.Q<TemplateContainer>("EcsactRuntimeBuilderSettings");
-		var rtbEnableToggle = ui.Q<Toggle>("EnableRTB");
+		var ecsactBuildToggle = ui.Q<Toggle>("EnableEcsactBuild");
 
-		rtbEnableToggle.RegisterValueChangedCallback(evt => {
+		ecsactBuildToggle.RegisterValueChangedCallback(evt => {
 			if(evt.newValue) {
 				builderSettingsElement.style.display = DisplayStyle.Flex;
 			} else {

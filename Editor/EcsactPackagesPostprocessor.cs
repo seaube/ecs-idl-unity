@@ -125,7 +125,7 @@ public class EcsactPackagesPostprocessor : AssetPostprocessor {
 
 		var settings = EcsactSettings.GetOrCreateSettings();
 
-		if(settings.runtimeBuilderEnabled) {
+		if(settings.ecsactBuildEnabled) {
 			EcsactRuntimeBuilder.Build(new EcsactRuntimeBuilder.Options {
 				ecsactFiles = packages.Select(item => item.Item2).ToList(),
 			});

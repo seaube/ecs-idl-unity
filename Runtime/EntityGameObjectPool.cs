@@ -88,7 +88,7 @@ public class EntityGameObjectPool : ScriptableObject {
 
 	private EntityGameObjectPool() {
 		entityComponentIds = new List<ComponentIdsList>();
-		entityGameObjects = new List<GameObject?>();
+		entityGameObjects = new List < GameObject ? > ();
 	}
 
 	void OnEnable() {
