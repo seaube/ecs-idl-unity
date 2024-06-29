@@ -73,7 +73,8 @@ internal static class EcsactRuntimeDefaults {
 		// If async no default available registry!
 		if(settings.runner == EcsactRuntimeSettings.RunnerType.AsyncRunner) {
 			cacheRegistry = new CacheRegistry(Ecsact.Defaults.Runtime, reg);
-		} else if(settings.runner == EcsactRuntimeSettings.RunnerType.DefaultRunner) {
+		} else if(settings.runner ==
+							EcsactRuntimeSettings.RunnerType.DefaultRunner) {
 			settings.defaultRegistry!.registryId = registry_id;
 
 			Ecsact.Defaults._Registry = reg;
@@ -104,15 +105,18 @@ internal static class EcsactRuntimeDefaults {
 		var defReg = settings.defaultRegistry;
 
 		if(settings.runner == EcsactRuntimeSettings.RunnerType.DefaultRunner) {
-			if(defReg.updateMethod == EcsactRuntimeDefaultRegistry.UpdateMethod.None) {
+			if(defReg.updateMethod ==
+				 EcsactRuntimeDefaultRegistry.UpdateMethod.None) {
 				Ecsact.Defaults.Runner = null;
-			} else if(defReg.updateMethod == EcsactRuntimeDefaultRegistry.UpdateMethod.FixedUpdate) {
+			} else if(defReg.updateMethod ==
+								EcsactRuntimeDefaultRegistry.UpdateMethod.FixedUpdate) {
 				Ecsact.Defaults.Runner =
 					EcsactRunner.CreateInstance<DefaultFixedRunner>(
 						settings,
 						"Default Fixed Runner"
 					);
-			} else if(defReg.updateMethod == EcsactRuntimeDefaultRegistry.UpdateMethod.Update) {
+			} else if(defReg.updateMethod ==
+								EcsactRuntimeDefaultRegistry.UpdateMethod.Update) {
 				Ecsact.Defaults.Runner = EcsactRunner.CreateInstance<DefaultRunner>(
 					settings,
 					"Default Runner"
