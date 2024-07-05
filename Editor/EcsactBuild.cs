@@ -5,8 +5,6 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using Ecsact.Editor;
-using UnityEngine.Rendering;
-using UnityEngine.UIElements;
 
 #nullable enable
 

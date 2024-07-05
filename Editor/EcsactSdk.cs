@@ -4,10 +4,7 @@ using System.Linq;
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using PlasticGui.WebApi.Requests;
 
 namespace Ecsact.Editor {
 
