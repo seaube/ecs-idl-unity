@@ -81,11 +81,6 @@ public static class EcsactSdk {
 			recipe_bundles.Add(e.Data);
 		});
 
-		proc.Exited += (_, ev) => {
-			UnityEngine.Debug.Log("Process ended");
-			callback(recipe_bundles);
-		};
-
 		proc.Start();
 		proc.BeginOutputReadLine();
 	}

@@ -267,11 +267,11 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 			"Packages/dev.ecsact.unity/Editor/EcsactSettings.uxml"
 		);
 		var ui = template.Instantiate();
+
 		BindingExtensions.Bind(ui, settings);
 		rootElement.Add(ui);
 
-		var builderSettingsElement =
-			ui.Q<TemplateContainer>("EcsactRuntimeBuilderSettings");
+		var builderSettingsElement = ui.Q<TemplateContainer>("EcsactBuildSettings");
 		var ecsactBuildToggle = ui.Q<Toggle>("EnableEcsactBuild");
 
 		ecsactBuildToggle.RegisterValueChangedCallback(evt => {
@@ -329,12 +329,9 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 		};
 
 		EcsactSdk.GetRecipeBundles((recipeList) => {
-			UnityEngine.Debug.Log("Callback");
-
 			var dropdownField = ui.Q<DropdownField>("Recipes");
 
 			foreach(var recipe in recipeList) {
-				UnityEngine.Debug.Log("Recipe: " + recipe);
 				dropdownField.choices.Add(recipe);
 			}
 		});
