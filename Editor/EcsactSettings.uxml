@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:Template name="EcsactRuntimeBuilderSettings" src="project://database/Packages/dev.ecsact.unity/Editor/EcsactRuntimeBuilderSettings.uxml?fileID=9197481963319205126&amp;guid=c615fbf6c52d3bd4b86ee07ef18a548b&amp;type=3#EcsactRuntimeBuilderSettings" />
+    <ui:Template name="EcsactBuildSettings" src="project://database/Packages/dev.ecsact.unity/Editor/EcsactBuildSettings.uxml?fileID=9197481963319205126&amp;guid=c615fbf6c52d3bd4b86ee07ef18a548b&amp;type=3#EcsactBuildSettings" />
     <ui:Template name="EcsactRuntimeMethodLoadedUI" src="project://database/Packages/dev.ecsact.unity/Editor/EcsactRuntimeMethodLoadedUI.uxml?fileID=9197481963319205126&amp;guid=a2a638a8b49ec24468a126f89d509035&amp;type=3#EcsactRuntimeMethodLoadedUI" />
     <ui:ScrollView>
         <ui:GroupBox>
             <ui:Label text="Ecsact Build Settings" display-tooltip-when-elided="true" style="font-size: 16px; -unity-font-style: bold;" />
             <ui:Toggle label="Enable Ecsact Build" value="false" name="EnableEcsactBuild" binding-path="ecsactBuildEnabled" />
-            <ui:Instance template="EcsactRuntimeBuilderSettings" name="EcsactRuntimeBuilderSettings" style="visibility: visible;" />
+            <ui:Instance template="EcsactBuildSettings" name="EcsactBuildSettings" style="visibility: visible;" />
         </ui:GroupBox>
         <ui:GroupBox>
             <ui:Label text="Runtime Settings" display-tooltip-when-elided="true" style="font-size: 16px; -unity-font-style: bold;" />

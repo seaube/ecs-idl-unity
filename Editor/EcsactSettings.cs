@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 using System.Linq;
 using System.Collections.Generic;
 using Ecsact.Editor.Internal;
+using Ecsact.Editor;
 
 #nullable enable
 
@@ -20,9 +21,9 @@ class EcsactSettings : ScriptableObject {
 	public bool   runtimeBuilderDebugBuild = false;
 	public bool   runtimeBuilderPrintSubcommandStdout = false;
 	public bool   runtimeBuilderPrintSubcommandStderr = false;
+	public string recipePath = "rt_entt";
 
 	public string runtimeBuilderCompilerPath = "";
-	public string recipePath = "";
 
 	static EcsactSettings() {
 		EcsactRuntimeSettings.editorValidateEvent += OnRuntimeSettingsValidate;
@@ -266,11 +267,11 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 			"Packages/dev.ecsact.unity/Editor/EcsactSettings.uxml"
 		);
 		var ui = template.Instantiate();
+
 		BindingExtensions.Bind(ui, settings);
 		rootElement.Add(ui);
 
-		var builderSettingsElement =
-			ui.Q<TemplateContainer>("EcsactRuntimeBuilderSettings");
+		var builderSettingsElement = ui.Q<TemplateContainer>("EcsactBuildSettings");
 		var ecsactBuildToggle = ui.Q<Toggle>("EnableEcsactBuild");
 
 		ecsactBuildToggle.RegisterValueChangedCallback(evt => {
@@ -326,6 +327,14 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 				csharpSystemImplSettingsEditor.OnInspectorGUI();
 			}
 		};
+
+		EcsactSdk.GetRecipeBundles((recipeList) => {
+			var dropdownField = ui.Q<DropdownField>("Recipes");
+
+			foreach(var recipe in recipeList) {
+				dropdownField.choices.Add(recipe);
+			}
+		});
 	}
 
 	public override void OnDeactivate() {
