@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 using System.Linq;
 using System.Collections.Generic;
 using Ecsact.Editor.Internal;
+using Ecsact.Editor;
 
 #nullable enable
 
@@ -20,9 +21,9 @@ class EcsactSettings : ScriptableObject {
 	public bool   runtimeBuilderDebugBuild = false;
 	public bool   runtimeBuilderPrintSubcommandStdout = false;
 	public bool   runtimeBuilderPrintSubcommandStderr = false;
+	public string recipePath = "rt_entt";
 
 	public string runtimeBuilderCompilerPath = "";
-	public string recipePath = "";
 
 	static EcsactSettings() {
 		EcsactRuntimeSettings.editorValidateEvent += OnRuntimeSettingsValidate;
@@ -326,6 +327,17 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 				csharpSystemImplSettingsEditor.OnInspectorGUI();
 			}
 		};
+
+		EcsactSdk.GetRecipeBundles((recipeList) => {
+			UnityEngine.Debug.Log("Callback");
+
+			var dropdownField = ui.Q<DropdownField>("Recipes");
+
+			foreach(var recipe in recipeList) {
+				UnityEngine.Debug.Log("Recipe: " + recipe);
+				dropdownField.choices.Add(recipe);
+			}
+		});
 	}
 
 	public override void OnDeactivate() {

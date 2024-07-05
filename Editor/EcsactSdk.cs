@@ -5,6 +5,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Ecsact.Editor {
 
@@ -56,6 +58,36 @@ public static class EcsactSdk {
 			);
 		}
 		return executablePath;
+	}
+
+	public delegate void RecipeCallback(List<string> recipeList);
+
+	public static void GetRecipeBundles(RecipeCallback callback) {
+		List<string> recipe_bundles = new();
+
+		string ecsactExecutablePath = EcsactSdk.FindExecutable("ecsact");
+
+		var proc = new Process();
+		proc.StartInfo.FileName = ecsactExecutablePath;
+		proc.StartInfo.CreateNoWindow = true;
+		proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+		proc.StartInfo.Arguments = "config recipe_bundles";
+		proc.EnableRaisingEvents = true;
+		proc.StartInfo.UseShellExecute = false;
+		proc.StartInfo.RedirectStandardOutput = true;
+
+		proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => {
+			if(string.IsNullOrEmpty(e.Data)) return;
+			recipe_bundles.Add(e.Data);
+		});
+
+		proc.Exited += (_, ev) => {
+			UnityEngine.Debug.Log("Process ended");
+			callback(recipe_bundles);
+		};
+
+		proc.Start();
+		proc.BeginOutputReadLine();
 	}
 }
 

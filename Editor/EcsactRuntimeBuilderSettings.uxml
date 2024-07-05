@@ -21,7 +21,7 @@
         <ui:Toggle label="Log Stderr" binding-path="runtimeBuilderPrintSubcommandStderr" />
         <ui:Toggle label="Log Stdout" binding-path="runtimeBuilderPrintSubcommandStdout" />
         <ui:TextField picking-mode="Ignore" label="Compiler Path" multiline="false" binding-path="runtimeBuilderCompilerPath" />
-        <ui:TextField picking-mode="Ignore" label="Recipe Path" binding-path="recipePath" />
+        <ui:DropdownField label="Recipes" index="0" name="Recipes" binding-path="recipePath" />
         <ui:TextField picking-mode="Ignore" label="Temp Directory" multiline="false" binding-path="runtimeBuilderTempDirectory" />
     </ui:VisualElement>
 </ui:UXML>
