@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using PlasticGui.WebApi.Requests;
 
 namespace Ecsact.Editor {
 
@@ -76,10 +77,12 @@ public static class EcsactSdk {
 		proc.StartInfo.UseShellExecute = false;
 		proc.StartInfo.RedirectStandardOutput = true;
 
-		proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => {
+		proc.OutputDataReceived += ((_, e) => {
 			if(string.IsNullOrEmpty(e.Data)) return;
 			recipe_bundles.Add(e.Data);
 		});
+
+		proc.Exited += ((_, e) => { callback(recipe_bundles); });
 
 		proc.Start();
 		proc.BeginOutputReadLine();
