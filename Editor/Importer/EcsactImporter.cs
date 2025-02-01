@@ -81,6 +81,10 @@ public class EcsactImporter : ScriptedImporter {
 		}
 
 		var pkgJson = JsonUtility.FromJson<PkgInfoJson>(pkgJsonStr);
+		if(pkgJson == null) {
+			ctx.LogImportError("Ecsact JSON parse failed");
+			return;
+		}
 		var pkg =
 			(EcsactPackage)ScriptableObject.CreateInstance(typeof(EcsactPackage));
 
