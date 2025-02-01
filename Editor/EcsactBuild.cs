@@ -295,17 +295,23 @@ public static class EcsactRuntimeBuilder {
 		}
 
 		proc.StartInfo.Arguments += " ";
-		proc.StartInfo.Arguments += "--recipe=\"";
 
 		if(_settings.ecsactBuildEnabled) {
-			if(!string.IsNullOrEmpty(_settings.recipePath)) {
-				var recipeFullPath = Path.GetFullPath(_settings.recipePath);
-				proc.StartInfo.Arguments += recipeFullPath;
-				proc.StartInfo.Arguments += "\" ";
-			} else {
-				UnityEngine.Debug.LogError(
-					"A recipe path hasn't been given in Ecsact Build Settings"
-				);
+			foreach(var recipe in _settings.recipes) {
+				if(!string.IsNullOrEmpty(recipe)) {
+					proc.StartInfo.Arguments += " --recipe=\"";
+					var recipeFullPath = Path.GetFullPath(recipe);
+					if(File.Exists(recipeFullPath)) {
+						proc.StartInfo.Arguments += recipeFullPath;
+					} else {
+						proc.StartInfo.Arguments += recipe;
+					}
+					proc.StartInfo.Arguments += "\" ";
+				} else {
+					UnityEngine.Debug.LogError(
+						"A recipe path hasn't been given in Ecsact Build Settings"
+					);
+				}
 			}
 		}
 

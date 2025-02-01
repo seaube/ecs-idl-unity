@@ -21,7 +21,8 @@ class EcsactSettings : ScriptableObject {
 	public bool   runtimeBuilderDebugBuild = false;
 	public bool   runtimeBuilderPrintSubcommandStdout = false;
 	public bool   runtimeBuilderPrintSubcommandStderr = false;
-	public string recipePath = "rt_entt";
+
+	public List<string> recipes = new();
 
 	public string runtimeBuilderCompilerPath = "";
 
@@ -85,6 +86,7 @@ class EcsactMethodUIBindings : ScriptableObject {
 
 class EcsactSettingsSettingsProvider : SettingsProvider {
 	private static bool showMissingMethods;
+	private static List<string> cachedRecipeList = new();
 
 	Editor? runtimeSettingsEditor = null;
 	Editor? wasmRuntimeSettingsEditor = null;
@@ -328,12 +330,17 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 			}
 		};
 
-		EcsactSdk.GetRecipeBundles((recipeList) => {
-			var dropdownField = ui.Q<DropdownField>("Recipes");
+		var recipesList = ui.Q<ListView>("Recipes");
+		recipesList.makeItem = MakeRecipeElement;
+		recipesList.bindItem = BindRecipeElement;
+		recipesList.itemsSource = cachedRecipeList;
+		recipesList.selectionType = SelectionType.None;
+		recipesList.RefreshItems();
 
-			foreach(var recipe in recipeList) {
-				dropdownField.choices.Add(recipe);
-			}
+		EcsactSdk.GetRecipeBundles((recipeList) => {
+			cachedRecipeList = recipeList;
+			recipesList.itemsSource = cachedRecipeList;
+			recipesList.RefreshItems();
 		});
 	}
 
@@ -342,6 +349,34 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 			Editor.DestroyImmediate(runtimeSettingsEditor);
 			runtimeSettingsEditor = null;
 		}
+	}
+
+	private VisualElement MakeRecipeElement() {
+		var toggle = new Toggle();
+		toggle.RegisterCallback<ChangeEvent<bool>>((evt) => {
+			var settings = EcsactSettings.GetOrCreateSettings();
+			if(evt.newValue) {
+				settings.recipes.Add(toggle.text);
+			} else {
+				settings.recipes.Remove(toggle.text);
+			}
+			EditorUtility.SetDirty(settings);
+		});
+		return toggle;
+	}
+
+	private void BindRecipeElement(VisualElement element, int index) {
+		var toggle = element as Toggle;
+		var recipe = cachedRecipeList[index];
+		if(recipe != null) {
+			toggle.text = recipe;
+			toggle.SetValueWithoutNotify(IsUsingRecipe(recipe));
+		}
+	}
+
+	private bool IsUsingRecipe(string name) {
+		var settings = EcsactSettings.GetOrCreateSettings();
+		return settings.recipes.Contains(name);
 	}
 }
 
