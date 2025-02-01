@@ -17,4 +17,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: greut/eclint-action@v0
       - uses: jidicula/clang-format-action@v4.11.0
-        with: { clang-format-version: "18" }
+        with: { clang-format-version: "19" }
