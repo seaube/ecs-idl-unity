@@ -85,7 +85,7 @@ class EcsactMethodUIBindings : ScriptableObject {
 }
 
 class EcsactSettingsSettingsProvider : SettingsProvider {
-	private static bool showMissingMethods;
+	private static bool         showMissingMethods;
 	private static List<string> cachedRecipeList = new();
 
 	Editor? runtimeSettingsEditor = null;
@@ -367,7 +367,7 @@ class EcsactSettingsSettingsProvider : SettingsProvider {
 
 	private void BindRecipeElement(VisualElement element, int index) {
 		var toggle = element as Toggle;
-		var recipe = cachedRecipeList[index];
+		var                  recipe = cachedRecipeList[index];
 		if(recipe != null) {
 			toggle.text = recipe;
 			toggle.SetValueWithoutNotify(IsUsingRecipe(recipe));

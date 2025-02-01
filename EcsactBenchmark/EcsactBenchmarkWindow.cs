@@ -151,7 +151,8 @@ public class EcsactBenchmarkWindow : EditorWindow {
 	void OnGUI() {
 		var runtimeSettings = EcsactRuntimeSettings.Get();
 
-		if(runtimeSettings.systemImplSource != Ecsact.SystemImplSource.WebAssembly) {
+		if(runtimeSettings.systemImplSource !=
+			 Ecsact.SystemImplSource.WebAssembly) {
 			EditorGUILayout.HelpBox(
 				"Ecsact benchmark only supports WebAssembly system implementations.",
 				MessageType.Info
